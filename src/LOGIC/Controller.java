@@ -46,6 +46,7 @@ public class Controller {
 
 
         if (!MoshakasatBazi.getPlayers().containsKey(id)) {
+            System.out.println("KOODETA -> PLAYER MOJOD NIST! ");
             return false;
         }
         if (player.getCoins() >= 7) {
@@ -123,6 +124,10 @@ public class Controller {
         }else {
             return false;
         }
+    }
+    public int chooseCard(){
+        //todo
+        return 0;
     }
     public void updateMainPanel(){
         MainPanel.getInstance().update();

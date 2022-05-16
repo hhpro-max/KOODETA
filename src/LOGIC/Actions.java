@@ -2,6 +2,7 @@ package LOGIC;
 
 public enum Actions {
     SOE_GHASD,
+    KOODETA,
     BAJ_GIRI,
     GET_MONEY,
     NOTHING,

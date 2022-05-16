@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class Player {
     List<KartBazi> kartBazis = new ArrayList<>();
-    Actions takedAction = Actions.NOTHING;
+    public Actions takedAction = Actions.NOTHING;
     Actions lastAction = Actions.NOTHING;
     int coins = 0;
     boolean bolof = false;
@@ -91,7 +91,7 @@ public class Player {
                 this.coins -= 7;
                 player.removeKard(i);
                 MoshakasatBazi.changeNobat();
-
+                player.takedAction = Actions.KOODETA;
                 System.out.println(this.getId() + "->" + idPlayer + ": KOODETA");
                 return true;
             }

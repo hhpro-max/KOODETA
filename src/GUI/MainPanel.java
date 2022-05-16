@@ -1,5 +1,6 @@
 package GUI;
 
+import LOGIC.Actions;
 import LOGIC.Controller;
 
 
@@ -16,7 +17,8 @@ public class MainPanel extends JPanel {
     JButton take3Coins;
     JButton bajGiri;
 
-
+    JButton pickCard1;
+    JButton pickCard2;
 
     JTextField idPlayer;
     JLabel idPlayer1;
@@ -66,6 +68,9 @@ public class MainPanel extends JPanel {
         takeSafeCoin = new JButton("TAKE 1 COIN");
         take2coins = new JButton("TAKE 2 COINS");
         take3Coins = new JButton("TAKE 3 COINS");
+
+        pickCard1 = new JButton("CARD 1");
+        pickCard2 = new JButton("CARD 2");
 
         tedadSeke = new JLabel("COINS :");
         tedadSeke1 = new JLabel(String.valueOf(Controller.getInstance().getStaticPlayer().getCoins()));
@@ -203,6 +208,7 @@ public class MainPanel extends JPanel {
 
 
     public void update() {
+
         if (!(tedadSeke1 == null)) {
             this.remove(tedadSeke1);
         }
@@ -222,6 +228,7 @@ public class MainPanel extends JPanel {
         this.add(tedadSeke1);
         tedadseke2.setBounds(MainFrame.width - 275,MainFrame.height - 300,30,30);
         this.add(tedadseke2);
+        checkRemove();
         updateKards();
         repaint();
         revalidate();
@@ -247,6 +254,29 @@ public class MainPanel extends JPanel {
         repaint();
         revalidate();
 
+    }
+    public void checkRemove(){
+        if (Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.KOODETA)){
+            if (pickCard1 != null){
+                remove(pickCard1);
+            }
+            if (pickCard2 != null){
+                remove(pickCard2);
+            }
+            pickCard1 = new JButton("CARD 1");
+            pickCard2 = new JButton("CARD 2");
+            pickCard1.setBounds((MainFrame.width / 2) - 250, MainFrame.height - 250, 100, 30);
+            this.add(pickCard1,1);
+            pickCard2.setBounds((MainFrame.width / 2) - 50, MainFrame.height - 250, 100, 30);
+            this.add(pickCard2,1);
+        }else {
+            if (pickCard1 != null){
+                remove(pickCard1);
+            }
+            if (pickCard2 != null){
+                remove(pickCard2);
+            }
+        }
     }
 
 }
