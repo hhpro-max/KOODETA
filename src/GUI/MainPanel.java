@@ -228,7 +228,7 @@ public class MainPanel extends JPanel {
         this.add(tedadSeke1);
         tedadseke2.setBounds(MainFrame.width - 275,MainFrame.height - 300,30,30);
         this.add(tedadseke2);
-        checkRemove();
+       // checkRemove(); todo
         updateKards();
         repaint();
         revalidate();
@@ -255,7 +255,10 @@ public class MainPanel extends JPanel {
         revalidate();
 
     }
-    public void checkRemove(){
+    public void showWarnMessage(){
+        JOptionPane.showMessageDialog(null,"YE KART ENTEKHAB KON");
+    }
+    /*  public void checkRemove(){ todo
         if (Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.KOODETA)){
             if (pickCard1 != null){
                 remove(pickCard1);
@@ -278,5 +281,8 @@ public class MainPanel extends JPanel {
             }
         }
     }
+
+     */
+
 
 }

@@ -1,9 +1,17 @@
 package LOGIC;
 
+import GUI.HazfCardFrame;
 import GUI.MainPanel;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Controller {
 
@@ -36,10 +44,7 @@ public class Controller {
     }
 
     public boolean checkCoins() {
-        if (player.getCoins() >= 10) {
-            return false;
-        }
-        return true;
+        return player.getCoins() < 10;
     }
 
     public boolean koodeta(int id) {
@@ -50,10 +55,7 @@ public class Controller {
             return false;
         }
         if (player.getCoins() >= 7) {
-            if (player.kodeta(MoshakasatBazi.getPlayers().get(id), 0)) {
-
-                return true;
-            }
+            return player.kodeta(MoshakasatBazi.getPlayers().get(id));
         }
         return false;
     }
@@ -65,10 +67,7 @@ public class Controller {
             return false;
         }
         if (player.getCoins() >= 3) {
-            if (player.soeGhasd(MoshakasatBazi.getPlayers().get(id), 0)) {
-
-                return true;
-            }
+            return player.soeGhasd(MoshakasatBazi.getPlayers().get(id), 0);
         }
         return false;
     }
@@ -79,13 +78,7 @@ public class Controller {
         if (!MoshakasatBazi.getPlayers().containsKey(id)) {
             return false;
         }
-        if (player.bajGiri(MoshakasatBazi.getPlayers().get(id))) {
-
-            return true;
-        }
-
-
-        return false;
+        return player.bajGiri(MoshakasatBazi.getPlayers().get(id));
     }
 
     public List<KartBazi> getKardPLayer(int id) {
@@ -119,16 +112,36 @@ public class Controller {
         return MoshakasatBazi.getInValidKards();
     }
     public boolean checkNobat(){
-        if (MoshakasatBazi.getPlayer().equals(player)){
-            return true;
-        }else {
-            return false;
-        }
+        return MoshakasatBazi.getPlayer().equals(player);
     }
     public int chooseCard(){
         //todo
         return 0;
     }
+    public void warnPlayer(){
+        //todo
+        if (getStaticPlayer().getChoosenCard() != null){
+            return;
+        }
+        MainPanel.getInstance().showWarnMessage();
+        HazfCardFrame hazfCardFrame = new HazfCardFrame();
+        // final ScheduledExecutorService executorService = Executors.newScheduledThreadPool(1);
+       // executorService.scheduleAtFixedRate(task(), 10, 10, TimeUnit.MINUTES);
+
+    }
+    public void removeCard(ImageIcon imageIcon){
+        for (KartBazi i:
+             getStaticPlayer().getKartBazis()) {
+            if (imageIcon.equals(i.getImageIcon())){
+                MoshakasatBazi.getInValidKards().add(i);
+                getStaticPlayer().getKartBazis().remove(i);
+                break;
+            }
+        }
+    }
+
+
+
     public void updateMainPanel(){
         MainPanel.getInstance().update();
     }

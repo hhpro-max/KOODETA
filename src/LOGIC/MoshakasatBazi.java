@@ -40,11 +40,7 @@ public class MoshakasatBazi {
         Collections.shuffle(validKards);
     }
     public static void changeNobat(){
-        if (players.size() == 1){
-            System.out.println(player.getId() + " WON !");
-            System.exit(0);
-            return;
-        }
+        checkFinish();
         if (nobat < 4){
             nobat++;
         }else {
@@ -60,6 +56,12 @@ public class MoshakasatBazi {
     public static void playNext(){
         player.play();
         Controller.getInstance().updateMainPanel();
+    }
+    public static void checkFinish(){
+        if (players.size() == 1){
+            System.out.println(player.getId() + " WON !");
+            System.exit(0);
+        }
     }
 
     public static Player getPlayer() {

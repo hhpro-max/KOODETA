@@ -9,6 +9,8 @@ import LOGIC.KartBazi;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,8 +37,19 @@ public class PlayerCards extends JPanel {
         if (Controller.getInstance().isThisPlayer()){
             for (KartBazi j:
                     kartBaziList) {
-                JLabel jLabel = new JLabel(j.getImageIcon());
-                this.add(jLabel);
+                JButton jButton = new JButton(j.getImageIcon());
+                jButton.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            String[] idk = j.getClass().toString().split("\\.");
+                            System.out.println(idk[1]);
+                        }catch (Exception e1){
+
+                        }
+                    }
+                });
+                this.add(jButton);
             }
         }else {
             for (KartBazi i:

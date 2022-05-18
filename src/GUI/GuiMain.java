@@ -11,7 +11,8 @@ public class GuiMain {
         Farmande farmande = new Farmande();
         Player player = new Player();
         Player player1 = new Robot1();
-
+        player1.setChoosenCard(0);
+        //player.setChoosenCard(0);
         player1.getKartBazis().add(farmande);
         player1.getKartBazis().add(farmande);
         player1.setCoins(10);
