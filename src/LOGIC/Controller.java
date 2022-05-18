@@ -67,7 +67,7 @@ public class Controller {
             return false;
         }
         if (player.getCoins() >= 3) {
-            return player.soeGhasd(MoshakasatBazi.getPlayers().get(id), 0);
+            return player.soeGhasd(MoshakasatBazi.getPlayers().get(id));
         }
         return false;
     }

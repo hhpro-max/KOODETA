@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class Player  {
+public class Player {
     List<KartBazi> kartBazis = new ArrayList<>();
     public Actions takedAction = Actions.NOTHING;
     Actions lastAction = Actions.NOTHING;
@@ -26,6 +26,7 @@ public class Player  {
         this.coins = this.coins + 2;
         safe = false;
         System.out.println(this.id + " -> " + "BANK : TOOK 2 COINS");
+        MoshakasatBazi.changeNobat();
     }
 
 
@@ -62,6 +63,7 @@ public class Player  {
         safe = false;
         this.coins = this.coins + 3;
         System.out.println(this.id + " -> " + "BANK : TOOK 3 COINS");
+        MoshakasatBazi.changeNobat();
         for (KartBazi i :
                 kartBazis) {
             if (i instanceof BozorgZade) {
@@ -96,7 +98,7 @@ public class Player  {
             System.out.println(this.getId() + "->" + idPlayer + ": KOODETA");
             MoshakasatBazi.changeNobat();
 
-            if (player.getKartBazis().size() == 1){
+            if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
                 player.takedAction = Actions.KOODETA;
                 player.choosenCard = null;
@@ -122,7 +124,8 @@ public class Player  {
         return false;
     }
 
-    public boolean soeGhasd(Player player, int j) {
+    public boolean soeGhasd(Player player) {
+        bolof = true;
         if (player.isSafe()) {
             System.out.println(this.id + "->" + player.id + " : IS SAFE");
             return false;
@@ -130,30 +133,40 @@ public class Player  {
         safe = false;
         if (this.coins >= 3) {
 
-            if (j <= player.getKartBazis().size() - 1) {
-                String idPlayer;
-                try {
-                    idPlayer = player.getId();
-                } catch (Exception e) {
-                    System.out.println(e.getMessage() + " ERROR");
-                    return false;
-                }
-                System.out.println(this.getId() + "->" + idPlayer + ": SOEGHASD");
-                player.removeKard(j);
 
-                this.coins -= 3;
-                for (KartBazi i :
-                        kartBazis) {
-                    if (i instanceof AdamKosh) {
-                        bolof = false;
-                        break;
-                    }
-                }
-                this.lastAction = Actions.SOE_GHASD;
+            String idPlayer;
+            try {
+                idPlayer = player.getId();
+            } catch (Exception e) {
+                System.out.println(e.getMessage() + " ERROR");
+                return false;
+            }
+            System.out.println(this.getId() + "->" + idPlayer + ": SOEGHASD");
+            if (player.getKartBazis().size() == 1) {
+                player.removeKard(0);
                 player.takedAction = Actions.SOE_GHASD;
+                player.choosenCard = null;
                 return true;
             }
-            bolof = true;
+            try {
+                player.removeKard(player.choosenCard);
+            }catch (Exception e){
+                Controller.getInstance().warnPlayer();
+            }
+            MoshakasatBazi.changeNobat();
+            this.coins -= 3;
+            for (KartBazi i :
+                    kartBazis) {
+                if (i instanceof AdamKosh) {
+                    bolof = false;
+                    break;
+                }
+            }
+            this.lastAction = Actions.SOE_GHASD;
+            player.takedAction = Actions.SOE_GHASD;
+            return true;
+
+
         }
         return false;
     }
@@ -189,6 +202,7 @@ public class Player  {
                 }
             }
             System.out.println(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            MoshakasatBazi.changeNobat();
             return true;
         } else if (player.getCoins() == 1) {
             this.lastAction = Actions.BAJ_GIRI;
@@ -203,6 +217,7 @@ public class Player  {
                 }
             }
             System.out.println(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            MoshakasatBazi.changeNobat();
             return true;
         }
         return false;
@@ -221,6 +236,7 @@ public class Player  {
         this.kartBazis.clear();
         kartBazis.add(kartBazi1);
         kartBazis.add(kartBazi2);
+        MoshakasatBazi.changeNobat();
     }
 
     public void moaveze1coin(KartBazi kartBazi1, KartBazi kartBazi2) {
@@ -238,6 +254,7 @@ public class Player  {
             this.kartBazis.clear();
             kartBazis.add(kartBazi1);
             kartBazis.add(kartBazi2);
+            MoshakasatBazi.changeNobat();
         }
     }
 
@@ -296,7 +313,8 @@ public class Player  {
     public void play() {
 
     }
-    public void chooseCard(){
+
+    public void chooseCard() {
 
     }
 

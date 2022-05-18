@@ -1,17 +1,20 @@
 package LOGIC;
 
-public class Robot1 extends Player{
+public class Robot1 extends Player {
     @Override
-    public void play(){
-        if (this.coins < 7 ){
-            this.takeSafeCoin();
+    public void play() {
+        if (this.coins < 3) {
+            this.take2Coins();
         }
-        this.kodeta(MoshakasatBazi.getPlayers().get(1));
+        if (this.coins >= 3) {
+            this.soeGhasd(MoshakasatBazi.getPlayers().get(1));
+        }
 
     }
+
     @Override
-    public void chooseCard(){
-        if (this.choosenCard == null){
+    public void chooseCard() {
+        if (this.choosenCard == null) {
             this.choosenCard = this.kartBazis.size() - 1;
         }
     }
