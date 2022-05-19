@@ -141,14 +141,18 @@ public class MainPanel extends JPanel {
         koodeta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!idPlayer.getText().isEmpty()) {
-                    if (Controller.getInstance().koodeta(Integer.parseInt(idPlayer.getText()))) {
-                        jOptionPane.showMessageDialog(null, "KODETA BA MOVAFAGHIAT TAKMIL SHOD");
+                if (Controller.getInstance().checkNobat()){
+                    if (!idPlayer.getText().isEmpty()) {
+                        if (Controller.getInstance().koodeta(Integer.parseInt(idPlayer.getText()))) {
+                            jOptionPane.showMessageDialog(null, "KODETA BA MOVAFAGHIAT TAKMIL SHOD");
+                        } else {
+                            jOptionPane.showMessageDialog(null, "SEKE KAFI DARY GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        }
                     } else {
-                        jOptionPane.showMessageDialog(null, "SEKE KAFI DARY GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                } else {
-                    jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
+                }else {
+                    jOptionPane.showMessageDialog(null, "Nobatet nist");
                 }
                 update();
                 updateKards();
@@ -157,14 +161,18 @@ public class MainPanel extends JPanel {
         soeGhasd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!idPlayer.getText().isEmpty()) {
-                    if (Controller.getInstance().soeGhasd(Integer.parseInt(idPlayer.getText()))) {
-                        jOptionPane.showMessageDialog(null, "SOEGHASD BA MOVAFAGHIAT TAKMIL SHOD");
+                if (Controller.getInstance().checkNobat()){
+                    if (!idPlayer.getText().isEmpty()) {
+                        if (Controller.getInstance().soeGhasd(Integer.parseInt(idPlayer.getText()))) {
+                            jOptionPane.showMessageDialog(null, "SOEGHASD BA MOVAFAGHIAT TAKMIL SHOD");
+                        } else {
+                            jOptionPane.showMessageDialog(null, "SEKE KAFI DARY GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        }
                     } else {
-                        jOptionPane.showMessageDialog(null, "SEKE KAFI DARY GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                } else {
-                    jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
+                }else {
+                    jOptionPane.showMessageDialog(null, "NOBATET NIST");
                 }
                 update();
                 updateKards();
@@ -174,14 +182,18 @@ public class MainPanel extends JPanel {
         bajGiri.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!idPlayer.getText().isEmpty()) {
-                    if (Controller.getInstance().bajGiri(Integer.parseInt(idPlayer.getText()))) {
-                        jOptionPane.showMessageDialog(null, "BAJGIRI BA MOVAFAGHIAT TAKMIL SHOD");
+                if (Controller.getInstance().checkNobat()){
+                    if (!idPlayer.getText().isEmpty()) {
+                        if (Controller.getInstance().bajGiri(Integer.parseInt(idPlayer.getText()))) {
+                            jOptionPane.showMessageDialog(null, "BAJGIRI BA MOVAFAGHIAT TAKMIL SHOD");
+                        } else {
+                            jOptionPane.showMessageDialog(null, "SEKE KAFI DARE GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        }
                     } else {
-                        jOptionPane.showMessageDialog(null, "SEKE KAFI DARE GOLAM? (SHAYAD PLAYER MOJOD NIST)");
+                        jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                } else {
-                    jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
+                }else {
+                    jOptionPane.showMessageDialog(null, "NOBATET NIST");
                 }
                 update();
             }
@@ -189,7 +201,12 @@ public class MainPanel extends JPanel {
         moaveze.addActionListener(new ActionListener() {
                                       @Override
                                       public void actionPerformed(ActionEvent e) {
-                                          ChangeCardsFrame changeCardsFrame = new ChangeCardsFrame(1);
+                                          if (Controller.getInstance().checkNobat()) {
+                                              ChangeCardsFrame changeCardsFrame = new ChangeCardsFrame(1);
+                                          }
+                                          else {
+                                              jOptionPane.showMessageDialog(null, "NOBATET NIST");
+                                          }
 
                                       }
                                   }
@@ -197,10 +214,14 @@ public class MainPanel extends JPanel {
         moaveze1coin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.getInstance().getStaticPlayer().getCoins()>=1){
-                    TavizCardFrame tavizCardFrame = new TavizCardFrame();
+                if (Controller.getInstance().checkNobat()){
+                    if (Controller.getInstance().getStaticPlayer().getCoins()>=1){
+                        TavizCardFrame tavizCardFrame = new TavizCardFrame();
+                    }else {
+                        jOptionPane.showMessageDialog(null,"HADAGHAL YE SEKE BAYAD BEDI");
+                    }
                 }else {
-                    jOptionPane.showMessageDialog(null,"HADAGHAL YE SEKE BAYAD BEDI");
+                    jOptionPane.showMessageDialog(null,"Nobatet nist");
                 }
             }
         });

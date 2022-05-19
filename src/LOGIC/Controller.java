@@ -103,7 +103,9 @@ public class Controller {
         return kartBazis;
     }
     public void moaveze(List<KartBazi> kartBazis){
-        player.moaveze(kartBazis.get(0),kartBazis.get(1));
+
+            player.moaveze(kartBazis.get(0), kartBazis.get(1));
+
     }
     public void tavizkart(List<KartBazi> kartBazis){
         player.moaveze1coin(kartBazis.get(0),kartBazis.get(1));

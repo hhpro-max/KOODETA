@@ -16,6 +16,7 @@ public class Player {
     Integer choosenCard = null;
 
     public void takeSafeCoin() {
+
         this.coins++;
         safe = true;
         System.out.println(this.id + " -> " + "BANK : TOOK SAFE COIN");
@@ -23,6 +24,7 @@ public class Player {
     }
 
     public void take2Coins() {
+
         this.coins = this.coins + 2;
         safe = false;
         System.out.println(this.id + " -> " + "BANK : TOOK 2 COINS");
@@ -55,6 +57,7 @@ public class Player {
     }
 
     public void take3Coins() {
+
         for (Player i :
                 MoshakasatBazi.getPlayers().values()) {
             i.takedAction = Actions.GET_MONEY;
@@ -77,6 +80,7 @@ public class Player {
     }
 
     public boolean kodeta(Player player) {
+
 
         if (player == null) {
             return false;
@@ -172,6 +176,7 @@ public class Player {
     }
 
     public boolean bajGiri(Player player) {
+
         if (player.isSafe()) {
             System.out.println(this.id + "->" + player.id + " : IS SAFE");
             return false;
@@ -308,6 +313,10 @@ public class Player {
             return reAction();
         }
         return false;
+    }
+
+    public boolean checkNobat(){
+        return MoshakasatBazi.getPlayer().equals(this);
     }
 
     public void play() {
