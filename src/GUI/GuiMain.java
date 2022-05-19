@@ -14,8 +14,8 @@ public class GuiMain {
         player1.setChoosenCard(0);
         //player.setChoosenCard(0);
         player1.getKartBazis().add(farmande);
-        player1.getKartBazis().add(farmande);
-        player1.setCoins(10);
+        player1.getKartBazis().add(new AdamKosh());
+        player1.setCoins(0);
         player.getKartBazis().add(new Safir());
         player.getKartBazis().add(new AdamKosh());
 

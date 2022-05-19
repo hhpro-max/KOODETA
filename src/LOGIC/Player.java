@@ -60,7 +60,9 @@ public class Player {
 
         for (Player i :
                 MoshakasatBazi.getPlayers().values()) {
-            i.takedAction = Actions.GET_MONEY;
+            if (!i.equals(this)){
+                i.takedAction = Actions.GET_MONEY;
+            }
         }
         this.lastAction = Actions.GET_MONEY;
         safe = false;
@@ -104,7 +106,6 @@ public class Player {
 
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
-                player.takedAction = Actions.KOODETA;
                 player.choosenCard = null;
                 return true;
             }
@@ -120,7 +121,6 @@ public class Player {
 
             }
             MoshakasatBazi.changeNobat();
-            player.takedAction = Actions.KOODETA;
             player.choosenCard = null;
             return true;
         }
@@ -294,7 +294,16 @@ public class Player {
                 return true;
 
             case SOE_GHASD:
-                this.lastAction = Actions.REACTED_ON_SOEGHASD;
+                for (Player i:
+                     MoshakasatBazi.getPlayers().values()) {
+                    if (!i.equals(this) && i.getLastAction().equals(Actions.SOE_GHASD)){
+                        if (i.isBolof()){
+                            i.removeKard(i.choosenCard);
+                        }else {
+                            Controller.getInstance().warnPlayer();
+                        }
+                    }
+                }
                 this.takedAction = Actions.NOTHING;
                 bolof = true;
                 for (KartBazi i :

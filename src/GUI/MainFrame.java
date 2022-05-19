@@ -4,14 +4,18 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainFrame extends JFrame {
+   static List<JFrame> jFrameList;
    static int width = 1900;
    static int height = 1000;
 
     MainPanel mainPanel;
 
     public MainFrame(){
+        jFrameList = new ArrayList<>();
         initFrame();
 
 

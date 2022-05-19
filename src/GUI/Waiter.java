@@ -1,38 +1,57 @@
 package GUI;
 
+import LOGIC.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class Waiter extends JFrame implements Runnable{
+public class Waiter extends JFrame {
     JLabel jLabel;
     Timer timer;
+    public JButton jButton;
     double timeLeft;
-    public static Waiter waiter;
-    private Waiter(){
+    String chalengeName;
+    public boolean isOpen;
+    public Waiter(String chalengeName){
+        this.chalengeName = chalengeName;
         initFrame();
         initComps();
         timer.start();
     }
-    public static Waiter getInstance(){
-        if (waiter == null){
-            waiter = new Waiter();
-        }
-        return waiter;
-    }
+
     public void initFrame(){
         this.setVisible(true);
         this.setLayout(null);
         this.setSize(new Dimension(200,200));
         this.setResizable(false);
-
+        this.setLocation(MainFrame.width - 300,100);
 
     }
     public void initComps() {
+        isOpen = true;
         timeLeft =5;
+        jButton = new JButton(chalengeName);
+        jButton.setBounds(50,60,100,30);
+        jButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                for (JFrame j:
+                     MainFrame.jFrameList) {
+                    j.dispose();
+                }
+                MainFrame.jFrameList.clear();
+                Controller.getInstance().getStaticPlayer().reAction();
+                dispose();
+                MainPanel.getInstance().update();
+            }
+        });
+        this.add(jButton);
         jLabel = new JLabel("00 : 00 : 5.0");
         jLabel.setBounds(40,20,100,30);
         ActionListener countDown = null;
@@ -46,6 +65,7 @@ public class Waiter extends JFrame implements Runnable{
                 if (timeLeft <= 0) {
                     timer.stop();
                     dispose();
+                    isOpen = false;
                 }
             }
         };
@@ -56,8 +76,4 @@ public class Waiter extends JFrame implements Runnable{
 
 
 
-    @Override
-    public void run() {
-        Waiter waiter = new Waiter();
-    }
 }

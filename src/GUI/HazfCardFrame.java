@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class HazfCardFrame extends JFrame {
     public HazfCardFrame(){
+        MainFrame.jFrameList.add(this);
         initFrame();
         initComps();
     }
@@ -17,7 +18,7 @@ public class HazfCardFrame extends JFrame {
         this.setVisible(true);
         this.setLayout(new GridLayout());
         this.setResizable(false);
-        this.setSize(new Dimension(800,800));
+        this.setSize(new Dimension(400,400));
     }
     public void initComps(){
         for (KartBazi kartBazi:

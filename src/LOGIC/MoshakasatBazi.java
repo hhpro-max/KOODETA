@@ -2,6 +2,7 @@ package LOGIC;
 
 import GUI.Waiter;
 
+import javax.swing.*;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -11,7 +12,7 @@ public class MoshakasatBazi {
     static List<KartBazi> inValidKards = new ArrayList<>();
     static int nobat = 1;
     static Player player;
-
+    static boolean baresi = false;
     public static void initCards(){
         if (validKards.isEmpty()){
             AdamKosh adamKosh = new AdamKosh();
@@ -51,9 +52,15 @@ public class MoshakasatBazi {
             nobat = 1;
         }
         if (players.containsKey(nobat)) {
-            Waiter.getInstance().run();
+
             player = players.get(nobat);
             playNext();
+
+
+
+            if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING)){
+                Waiter waiter = new Waiter(Controller.getInstance().getStaticPlayer().takedAction.toString());
+            }
 
         }else {
 
@@ -65,6 +72,10 @@ public class MoshakasatBazi {
         Controller.getInstance().updateMainPanel();
     }
     public static void checkFinish(){
+        for (Player j:
+             players.values()) {
+            j.checkLose(j);
+        }
         if (players.size() == 1){
             for (Map.Entry<Integer,Player> i:
                  players.entrySet()) {

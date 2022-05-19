@@ -10,11 +10,11 @@ public class Robot1 extends Player {
     @Override
     public void play() {
         if (this.coins < 7) {
-            this.take2Coins();
+            this.take3Coins();
         }
         else {
 
-            this.kodeta(MoshakasatBazi.getPlayers().get(1));
+            this.soeGhasd(MoshakasatBazi.getPlayers().get(1));
         }
 
     }
