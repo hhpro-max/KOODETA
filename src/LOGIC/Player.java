@@ -16,10 +16,10 @@ public class Player {
     Integer choosenCard = null;
 
     public void takeSafeCoin() {
-
         this.coins++;
         safe = true;
-        System.out.println(this.id + " -> " + "BANK : TOOK SAFE COIN");
+        Controller.getInstance().gozaresh(this.id + " -> " + "BANK : TOOK SAFE COIN");
+
         MoshakasatBazi.changeNobat();
     }
 
@@ -27,7 +27,7 @@ public class Player {
 
         this.coins = this.coins + 2;
         safe = false;
-        System.out.println(this.id + " -> " + "BANK : TOOK 2 COINS");
+        Controller.getInstance().gozaresh(this.id + " -> " + "BANK : TOOK 2 COINS");
         MoshakasatBazi.changeNobat();
     }
 
@@ -65,7 +65,7 @@ public class Player {
         this.lastAction = Actions.GET_MONEY;
         safe = false;
         this.coins = this.coins + 3;
-        System.out.println(this.id + " -> " + "BANK : TOOK 3 COINS");
+        Controller.getInstance().gozaresh(this.id + " -> " + "BANK : TOOK 3 COINS");
         MoshakasatBazi.changeNobat();
         for (KartBazi i :
                 kartBazis) {
@@ -99,8 +99,8 @@ public class Player {
         }
         if (this.coins >= 7) {
             this.coins -= 7;
-            System.out.println(this.getId() + "->" + idPlayer + ": KOODETA");
-            MoshakasatBazi.changeNobat();
+            Controller.getInstance().gozaresh(this.getId() + "->" + idPlayer + ": KOODETA");
+
 
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
@@ -111,17 +111,18 @@ public class Player {
             try {
 
 
-                int choosedCard = player.choosenCard;
-                player.removeKard(choosedCard);
-                player.takedAction = Actions.KOODETA;
-                player.choosenCard = null;
-                return true;
+                player.removeKard(player.choosenCard);
+
 
             } catch (Exception e) {
 
                 Controller.getInstance().warnPlayer();
-                return true;
+
             }
+            MoshakasatBazi.changeNobat();
+            player.takedAction = Actions.KOODETA;
+            player.choosenCard = null;
+            return true;
         }
 
 
@@ -131,7 +132,7 @@ public class Player {
     public boolean soeGhasd(Player player) {
         bolof = true;
         if (player.isSafe()) {
-            System.out.println(this.id + "->" + player.id + " : IS SAFE");
+            Controller.getInstance().gozaresh(this.id + "->" + player.id + " : IS SAFE");
             return false;
         }
         safe = false;
@@ -145,7 +146,7 @@ public class Player {
                 System.out.println(e.getMessage() + " ERROR");
                 return false;
             }
-            System.out.println(this.getId() + "->" + idPlayer + ": SOEGHASD");
+            Controller.getInstance().gozaresh(this.getId() + "->" + idPlayer + ": SOEGHASD");
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
                 player.takedAction = Actions.SOE_GHASD;
@@ -154,7 +155,7 @@ public class Player {
             }
             try {
                 player.removeKard(player.choosenCard);
-            }catch (Exception e){
+            } catch (Exception e) {
                 Controller.getInstance().warnPlayer();
             }
             MoshakasatBazi.changeNobat();
@@ -178,7 +179,7 @@ public class Player {
     public boolean bajGiri(Player player) {
 
         if (player.isSafe()) {
-            System.out.println(this.id + "->" + player.id + " : IS SAFE");
+            Controller.getInstance().gozaresh(this.id + "->" + player.id + " : IS SAFE");
             return false;
         }
         String idPlayer;
@@ -206,7 +207,7 @@ public class Player {
                     break;
                 }
             }
-            System.out.println(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            Controller.getInstance().gozaresh(player.getId() + "->" + idPlayer + ": BAJGIRI");
             MoshakasatBazi.changeNobat();
             return true;
         } else if (player.getCoins() == 1) {
@@ -221,7 +222,7 @@ public class Player {
                     break;
                 }
             }
-            System.out.println(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            Controller.getInstance().gozaresh(player.getId() + "->" + idPlayer + ": BAJGIRI");
             MoshakasatBazi.changeNobat();
             return true;
         }
@@ -315,7 +316,7 @@ public class Player {
         return false;
     }
 
-    public boolean checkNobat(){
+    public boolean checkNobat() {
         return MoshakasatBazi.getPlayer().equals(this);
     }
 

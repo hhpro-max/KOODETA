@@ -1,5 +1,6 @@
 package LOGIC;
 
+import GUI.GozareshPanel;
 import GUI.HazfCardFrame;
 import GUI.MainPanel;
 
@@ -140,6 +141,9 @@ public class Controller {
                 break;
             }
         }
+    }
+    public void gozaresh(String s){
+        GozareshPanel.getInstance().initGozaresh(s);
     }
 
 

@@ -50,6 +50,7 @@ public class MoshakasatBazi {
             player = players.get(nobat);
             playNext();
         }else {
+
             changeNobat();
         }
     }
@@ -59,7 +60,12 @@ public class MoshakasatBazi {
     }
     public static void checkFinish(){
         if (players.size() == 1){
-            System.out.println(player.getId() + " WON !");
+            for (Map.Entry<Integer,Player> i:
+                 players.entrySet()) {
+                if (i.getValue() != null){
+                    System.out.println(i.getValue().getId() + " WON !");
+                }
+            }
             System.exit(0);
         }
     }

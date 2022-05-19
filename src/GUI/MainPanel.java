@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainPanel extends JPanel {
+public class MainPanel extends JPanel  {
 
     JButton rahnama;
     JButton takeSafeCoin;
@@ -39,6 +39,7 @@ public class MainPanel extends JPanel {
     JLabel tedadseke2;
 
     JScrollPane jScrollPane;
+    JScrollPane jScrollPane2;
     InvalidCardsPanel invalidCardsPanel;
 
     public static MainPanel mainPanel;
@@ -89,6 +90,7 @@ public class MainPanel extends JPanel {
         jOptionPane = new JOptionPane();
         invalidCardsPanel = new InvalidCardsPanel();
         jScrollPane = new JScrollPane(invalidCardsPanel);
+        jScrollPane2 = new JScrollPane(GozareshPanel.getInstance());
 
         playerCards1 = new PlayerCards(Controller.getInstance().getKardPLayer(1));
         playerCards2 = new PlayerCards(Controller.getInstance().getKardPLayer(2));
@@ -127,8 +129,11 @@ public class MainPanel extends JPanel {
         this.add(moaveze);
         moaveze1coin.setBounds(MainFrame.width - (MainFrame.width - 1080), MainFrame.height - 100, 150, 30);
         this.add(moaveze1coin);
-        jScrollPane.setBounds(MainFrame.width/2 - 250, MainFrame.height/2 - 250, 300, 300);
+        jScrollPane.setBounds(MainFrame.width/2 - 50, MainFrame.height/2 - 250, 300, 300);
         this.add(jScrollPane);
+        jScrollPane2.setBounds(MainFrame.width/2 - 400, MainFrame.height/2 - 250, 300, 300);
+        this.add(jScrollPane2);
+
 
     }
 
@@ -250,6 +255,7 @@ public class MainPanel extends JPanel {
         tedadseke2.setBounds(MainFrame.width - 275,MainFrame.height - 300,30,30);
         this.add(tedadseke2);
        // checkRemove(); todo
+
         updateKards();
         repaint();
         revalidate();
@@ -279,6 +285,8 @@ public class MainPanel extends JPanel {
     public void showWarnMessage(){
         JOptionPane.showMessageDialog(null,"YE KART ENTEKHAB KON");
     }
+
+
     /*  public void checkRemove(){ todo
         if (Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.KOODETA)){
             if (pickCard1 != null){
