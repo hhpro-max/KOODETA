@@ -5,7 +5,10 @@ import java.awt.*;
 
 public class GozareshPanel extends JPanel {
     public static GozareshPanel gozareshPanel;
+
     private GozareshPanel(){
+
+
         initPanel();
     }
     public static GozareshPanel getInstance(){
@@ -15,9 +18,9 @@ public class GozareshPanel extends JPanel {
         return gozareshPanel;
     }
     public void initPanel() {
-        this.setSize(new Dimension(MainFrame.width/4, MainFrame.height/4));
+        this.setSize(new Dimension(100,500));
         this.setVisible(true);
-        this.setLayout(new GridLayout());
+        this.setLayout(new BoxLayout(this , BoxLayout.Y_AXIS));
     }
     public void initGozaresh(String s){
         JLabel jLabel = new JLabel(s);

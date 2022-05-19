@@ -1,6 +1,9 @@
 package LOGIC;
 
+import GUI.Waiter;
+
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 public class MoshakasatBazi {
     static Map<Integer,Player> players = new HashMap<>();
@@ -40,6 +43,7 @@ public class MoshakasatBazi {
         Collections.shuffle(validKards);
     }
     public static void changeNobat(){
+
         checkFinish();
         if (nobat < 4){
             nobat++;
@@ -47,8 +51,10 @@ public class MoshakasatBazi {
             nobat = 1;
         }
         if (players.containsKey(nobat)) {
+            Waiter.getInstance().run();
             player = players.get(nobat);
             playNext();
+
         }else {
 
             changeNobat();
