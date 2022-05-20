@@ -36,6 +36,12 @@ public class MainFrame extends JFrame {
         this.repaint();
         this.revalidate();
     }
-
+    public static void closeAll(){
+        for (JFrame j:
+                MainFrame.jFrameList) {
+            j.dispose();
+        }
+        MainFrame.jFrameList.clear();
+    }
 
 }

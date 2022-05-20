@@ -18,6 +18,10 @@ public class Robot1 extends Player {
         }
 
     }
+    @Override
+    public void undo(){
+
+    }
 
     @Override
     public void chooseCard() {

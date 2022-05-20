@@ -1,6 +1,7 @@
 package LOGIC;
 
 import GUI.Waiter;
+import GUI.Waiter2;
 
 import javax.swing.*;
 import java.util.*;
@@ -60,6 +61,9 @@ public class MoshakasatBazi {
 
             if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING)){
                 Waiter waiter = new Waiter(Controller.getInstance().getStaticPlayer().takedAction.toString());
+            }
+            if (nobat == 1 && !Controller.getInstance().getStaticPlayer().challengeAction.equals(Actions.NOTHING)){
+                Waiter2 waiter2 = new Waiter2(Controller.getInstance().getStaticPlayer().challengeAction.toString());
             }
 
         }else {

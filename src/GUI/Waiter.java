@@ -13,12 +13,14 @@ import java.util.concurrent.TimeUnit;
 
 public class Waiter extends JFrame {
     JLabel jLabel;
+    JLabel jLabel1;
     Timer timer;
     public JButton jButton;
     double timeLeft;
     String chalengeName;
     public boolean isOpen;
     public Waiter(String chalengeName){
+        MainFrame.jFrameList.add(this);
         this.chalengeName = chalengeName;
         initFrame();
         initComps();
@@ -34,6 +36,9 @@ public class Waiter extends JFrame {
 
     }
     public void initComps() {
+        jLabel1 = new JLabel("REACTION");
+        jLabel1.setBounds(50,100,100,30);
+        this.add(jLabel1);
         isOpen = true;
         timeLeft =5;
         jButton = new JButton(chalengeName);
@@ -41,13 +46,8 @@ public class Waiter extends JFrame {
         jButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (JFrame j:
-                     MainFrame.jFrameList) {
-                    j.dispose();
-                }
-                MainFrame.jFrameList.clear();
+                MainFrame.closeAll();
                 Controller.getInstance().getStaticPlayer().reAction();
-                dispose();
                 MainPanel.getInstance().update();
             }
         });
