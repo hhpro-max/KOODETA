@@ -42,8 +42,11 @@ public class PlayerCards extends JPanel {
                     @Override
                     public void actionPerformed(ActionEvent e) {
                         try {
+
                             String[] idk = j.getClass().toString().split("\\.");
                             System.out.println(idk[1]);
+                            Controller.getInstance().getStaticPlayer().mainPlayerChooseCard = Controller.getInstance().getStaticPlayer().getKartBazis().indexOf(j);
+                            System.out.println(Controller.getInstance().getStaticPlayer().mainPlayerChooseCard);
                         }catch (Exception e1){
 
                         }

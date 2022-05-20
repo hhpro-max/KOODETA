@@ -20,7 +20,8 @@ public class Robot2 extends Player{
         if (jaigah == 0) {
             findJaigah();
         }
-        if (this.challengeAction != Actions.NOTHING && (MoshakasatBazi.nobat == jaigah+1 || MoshakasatBazi.nobat == jaigah-1)){
+        Player lastChallenge = targetPlayer;
+        if (this.challengeAction != Actions.NOTHING && !MoshakasatBazi.getPlayers().get(MoshakasatBazi.nobat).equals(lastChallenge)){
             this.challenge();
         }
     }

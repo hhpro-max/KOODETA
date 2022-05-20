@@ -14,6 +14,8 @@ public class Player {
     boolean safe = false;
     String id;
     Integer choosenCard = null;
+    public int mainPlayerChooseCard = 0;
+    Player targetPlayer = null;
     Player targetPlayer1 = null;
     int jaigah = 0;
     public Player(){
@@ -44,7 +46,7 @@ public class Player {
             this.kartBazis.remove(i);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
+            this.removeKard(0);
         }
         checkLose(this);
     }
@@ -339,7 +341,7 @@ public class Player {
         }
     }
     public void challenge(){
-        Player targetPlayer = null;
+        targetPlayer = null;
         switch (challengeAction){
             case GET_MONEY:
 
@@ -363,9 +365,14 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-
                     targetPlayer.coins  = targetPlayer.coins - 3;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
+
                 }
                 break;
             case SOE_GHASD:
@@ -391,7 +398,11 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
                 }
                 break;
 
@@ -417,8 +428,12 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.coins = targetPlayer.coins - 1;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+                    targetPlayer.coins = targetPlayer.coins - 2;
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
                 }
                 break;
             case REACTED_ON_SOEGHASD:
@@ -443,7 +458,11 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
                 }
                 break;
             case REACTED_ON_BAJGIRI:
@@ -468,7 +487,11 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
                 }
                 break;
             case REACTED_ON_GETMONEY:
@@ -493,7 +516,11 @@ public class Player {
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.removeKard(targetPlayer.choosenCard);
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    }else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
                 }
                 break;
         }
