@@ -136,6 +136,7 @@ public class Controller {
         for (KartBazi i:
              getStaticPlayer().getKartBazis()) {
             if (imageIcon.equals(i.getImageIcon())){
+                GozareshPanel.getInstance().initGozaresh(getStaticPlayer().getId() +" -> KILL : "+ i.toString());
                 MoshakasatBazi.getInValidKards().add(i);
                 getStaticPlayer().getKartBazis().remove(i);
                 break;

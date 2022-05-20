@@ -2,10 +2,7 @@ package LOGIC;
 
 import GUI.GozareshPanel;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Player {
     List<KartBazi> kartBazis = new ArrayList<>();
@@ -17,6 +14,11 @@ public class Player {
     boolean safe = false;
     String id;
     Integer choosenCard = null;
+    Player targetPlayer1 = null;
+    int jaigah = 0;
+    public Player(){
+
+    }
 
     public void takeSafeCoin() {
         this.coins++;
@@ -38,6 +40,7 @@ public class Player {
     public void removeKard(int i) {
         try {
             MoshakasatBazi.getInValidKards().add(kartBazis.get(i));
+            GozareshPanel.getInstance().initGozaresh(this.id+" -> KILL : "+ kartBazis.get(i).toString());
             this.kartBazis.remove(i);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -111,6 +114,7 @@ public class Player {
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
                 player.choosenCard = null;
+                MoshakasatBazi.changeNobat();
                 return true;
             }
             try {
@@ -151,6 +155,7 @@ public class Player {
                 return false;
             }
             Controller.getInstance().gozaresh(this.getId() + "->" + idPlayer + ": SOEGHASD");
+            MoshakasatBazi.changeNobat();
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
                 player.takedAction = Actions.SOE_GHASD;
@@ -162,7 +167,7 @@ public class Player {
             } catch (Exception e) {
                 Controller.getInstance().warnPlayer();
             }
-            MoshakasatBazi.changeNobat();
+
             this.coins -= 3;
             for (KartBazi i :
                     kartBazis) {
@@ -349,7 +354,7 @@ public class Player {
                     for (KartBazi j:
                          targetPlayer.getKartBazis()) {
                         if (j instanceof BozorgZade){
-                            targetPlayer.challengeAction = Actions.NOTHING;
+                            targetPlayer.lastAction = Actions.NOTHING;
                             Controller.getInstance().warnPlayer();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
@@ -357,7 +362,7 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
+                    targetPlayer.lastAction = Actions.NOTHING;
 
                     targetPlayer.coins  = targetPlayer.coins - 3;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
@@ -376,8 +381,7 @@ public class Player {
                     for (KartBazi j:
                             targetPlayer.getKartBazis()) {
                         if (j instanceof AdamKosh){
-                            targetPlayer.challengeAction = Actions.NOTHING;
-
+                            targetPlayer.lastAction = Actions.NOTHING;
                             MoshakasatBazi.getPlayers().values().remove(this);
                             MoshakasatBazi.checkFinish();
                             targetPlayer.getKartBazis().remove(j);
@@ -386,8 +390,7 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
-
+                    targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
                 }
                 break;
@@ -405,8 +408,7 @@ public class Player {
                     for (KartBazi j:
                             targetPlayer.getKartBazis()) {
                         if (j instanceof Farmande){
-                            targetPlayer.challengeAction = Actions.NOTHING;
-
+                            targetPlayer.lastAction = Actions.NOTHING;
                             Controller.getInstance().warnPlayer();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
@@ -414,8 +416,7 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
-
+                    targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.coins = targetPlayer.coins - 1;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
                 }
@@ -433,8 +434,7 @@ public class Player {
                     for (KartBazi j:
                             targetPlayer.getKartBazis()) {
                         if (j instanceof ShahDokht){
-                            targetPlayer.challengeAction = Actions.NOTHING;
-
+                            targetPlayer.lastAction = Actions.NOTHING;
                             Controller.getInstance().warnPlayer();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
@@ -442,8 +442,7 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
-
+                    targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
                 }
                 break;
@@ -460,8 +459,7 @@ public class Player {
                     for (KartBazi j:
                             targetPlayer.getKartBazis()) {
                         if (j instanceof Farmande || j instanceof Safir){
-                            targetPlayer.challengeAction = Actions.NOTHING;
-
+                            targetPlayer.lastAction = Actions.NOTHING;
                             Controller.getInstance().warnPlayer();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
@@ -469,8 +467,7 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
-
+                    targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
                 }
                 break;
@@ -487,8 +484,7 @@ public class Player {
                     for (KartBazi j:
                             targetPlayer.getKartBazis()) {
                         if (j instanceof BozorgZade){
-                            targetPlayer.challengeAction = Actions.NOTHING;
-
+                            targetPlayer.lastAction = Actions.NOTHING;
                             Controller.getInstance().warnPlayer();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
@@ -496,15 +492,31 @@ public class Player {
                             return;
                         }
                     }
-                    targetPlayer.challengeAction = Actions.NOTHING;
-
+                    targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.removeKard(targetPlayer.choosenCard);
                 }
                 break;
         }
     }
+    public void challengeSetOn(){
+
+    }
     public void undo(){
 
+    }
+    public void chooseTargetPlayer(){
+        Random random = new Random();
+        int a = random.nextInt(5);
+        try {
+            if (MoshakasatBazi.getPlayers().get(a) != null && !MoshakasatBazi.getPlayers().get(a).equals(this)){
+                targetPlayer1 = MoshakasatBazi.getPlayers().get(a);
+            }
+            else {
+                chooseTargetPlayer();
+            }
+        }catch (Exception e){
+            chooseTargetPlayer();
+        }
     }
 
     public boolean checkReaction(boolean b) {

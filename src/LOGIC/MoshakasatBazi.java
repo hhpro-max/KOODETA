@@ -53,22 +53,38 @@ public class MoshakasatBazi {
             nobat = 1;
         }
         if (players.containsKey(nobat)) {
-
             player = players.get(nobat);
+
+            try {
+                checkChallenge();
+            }catch (Exception e){
+                System.out.println(e.getMessage() + "   THIS IS NOT IMPORTANT ERROR XD");
+            }
             playNext();
 
 
-
-            if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING)){
-                Waiter waiter = new Waiter(Controller.getInstance().getStaticPlayer().takedAction.toString());
-            }
-            if (nobat == 1 && !Controller.getInstance().getStaticPlayer().challengeAction.equals(Actions.NOTHING)){
-                Waiter2 waiter2 = new Waiter2(Controller.getInstance().getStaticPlayer().challengeAction.toString());
+            try {
+                if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING)){
+                    Waiter waiter = new Waiter(Controller.getInstance().getStaticPlayer().takedAction.toString());
+                }
+                if (!Controller.getInstance().getStaticPlayer().challengeAction.equals(Actions.NOTHING)){
+                    Waiter2 waiter2 = new Waiter2(Controller.getInstance().getStaticPlayer().challengeAction.toString());
+                }
+            }catch (Exception e){
+                System.out.println("YOU LOST AND YOU CAN JUST WATCH THE GAME!");
             }
 
         }else {
 
             changeNobat();
+        }
+    }
+    public static void checkChallenge(){
+        for (Player i:
+             MoshakasatBazi.getPlayers().values()) {
+            if (i != null &&    !i.equals(Controller.getInstance().getStaticPlayer())){
+                i.challengeSetOn();
+            }
         }
     }
     public static void playNext(){

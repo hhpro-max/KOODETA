@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class MainPanel extends JPanel  {
+public class MainPanel extends JPanel {
 
     JButton rahnama;
     JButton takeSafeCoin;
@@ -37,6 +37,12 @@ public class MainPanel extends JPanel  {
 
     PlayerCards playerCards2;
     JLabel tedadseke2;
+
+    PlayerCards playerCards3;
+    JLabel tedadSeke3;
+
+    PlayerCards playerCards4;
+    JLabel tedadSeke4;
 
     JScrollPane jScrollPane;
     JScrollPane jScrollPane2;
@@ -76,6 +82,9 @@ public class MainPanel extends JPanel  {
         tedadSeke = new JLabel("COINS :");
         tedadSeke1 = new JLabel(String.valueOf(Controller.getInstance().getStaticPlayer().getCoins()));
         tedadseke2 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(2).getCoins()));
+        tedadSeke3 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(3).getCoins()));
+        tedadSeke4 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(4).getCoins()));
+
 
         idPlayer = new JTextField();
         idPlayer1 = new JLabel("SHOMARE BAZIKON :");
@@ -94,6 +103,8 @@ public class MainPanel extends JPanel  {
 
         playerCards1 = new PlayerCards(Controller.getInstance().getKardPLayer(1));
         playerCards2 = new PlayerCards(Controller.getInstance().getKardPLayer(2));
+        playerCards3 = new PlayerCards(Controller.getInstance().getKardPLayer(3));
+        playerCards4 = new PlayerCards(Controller.getInstance().getKardPLayer(4));
     }
 
     public void align() {
@@ -115,8 +126,12 @@ public class MainPanel extends JPanel  {
         this.add(tedadSeke);
         tedadSeke1.setBounds(MainFrame.width / 2 + 5, MainFrame.height - 150, 150, 30);
         this.add(tedadSeke1);
-        tedadseke2.setBounds(MainFrame.width - 275,MainFrame.height - 300,30,30);
+        tedadseke2.setBounds(MainFrame.width - 275, MainFrame.height - 300, 30, 30);
         this.add(tedadseke2);
+        tedadSeke3.setBounds(MainFrame.width / 2 - 75, 250, 100, 30);
+        this.add(tedadSeke3);
+        tedadSeke4.setBounds(200, MainFrame.height - 300, 30, 30);
+        this.add(tedadSeke4);
         soeGhasd.setBounds(MainFrame.width - (MainFrame.width - 690), MainFrame.height - 150, 150, 30);
         this.add(soeGhasd);
         bajGiri.setBounds(MainFrame.width - (MainFrame.width - 760), MainFrame.height - 100, 150, 30);
@@ -125,13 +140,17 @@ public class MainPanel extends JPanel  {
         this.add(playerCards1, 0);
         playerCards2.setBounds((MainFrame.width) - 500, MainFrame.height - 650, 450, 300);
         this.add(playerCards2, 0);
+        playerCards3.setBounds((MainFrame.width / 2) - 250, -50, 450, 300);
+        this.add(playerCards3);
+        playerCards4.setBounds(10, MainFrame.height - 650, 450, 300);
+        this.add(playerCards4);
         moaveze.setBounds(MainFrame.width - (MainFrame.width - 920), MainFrame.height - 100, 150, 30);
         this.add(moaveze);
         moaveze1coin.setBounds(MainFrame.width - (MainFrame.width - 1080), MainFrame.height - 100, 150, 30);
         this.add(moaveze1coin);
-        jScrollPane.setBounds(MainFrame.width/2 - 50, MainFrame.height/2 - 250, 300, 300);
+        jScrollPane.setBounds(MainFrame.width / 2 - 50, MainFrame.height / 2 - 250, 300, 300);
         this.add(jScrollPane);
-        jScrollPane2.setBounds(MainFrame.width/2 - 400, MainFrame.height/2 - 250, 300, 300);
+        jScrollPane2.setBounds(MainFrame.width / 2 - 400, MainFrame.height / 2 - 250, 300, 300);
         this.add(jScrollPane2);
 
 
@@ -146,7 +165,7 @@ public class MainPanel extends JPanel  {
         koodeta.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.getInstance().checkNobat()){
+                if (Controller.getInstance().checkNobat()) {
                     if (!idPlayer.getText().isEmpty()) {
                         if (Controller.getInstance().koodeta(Integer.parseInt(idPlayer.getText()))) {
                             jOptionPane.showMessageDialog(null, "KODETA BA MOVAFAGHIAT TAKMIL SHOD");
@@ -156,7 +175,7 @@ public class MainPanel extends JPanel  {
                     } else {
                         jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                }else {
+                } else {
                     jOptionPane.showMessageDialog(null, "Nobatet nist");
                 }
                 update();
@@ -166,7 +185,7 @@ public class MainPanel extends JPanel  {
         soeGhasd.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.getInstance().checkNobat()){
+                if (Controller.getInstance().checkNobat()) {
                     if (!idPlayer.getText().isEmpty()) {
                         if (Controller.getInstance().soeGhasd(Integer.parseInt(idPlayer.getText()))) {
                             jOptionPane.showMessageDialog(null, "SOEGHASD BA MOVAFAGHIAT TAKMIL SHOD");
@@ -176,7 +195,7 @@ public class MainPanel extends JPanel  {
                     } else {
                         jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                }else {
+                } else {
                     jOptionPane.showMessageDialog(null, "NOBATET NIST");
                 }
                 update();
@@ -187,7 +206,7 @@ public class MainPanel extends JPanel  {
         bajGiri.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.getInstance().checkNobat()){
+                if (Controller.getInstance().checkNobat()) {
                     if (!idPlayer.getText().isEmpty()) {
                         if (Controller.getInstance().bajGiri(Integer.parseInt(idPlayer.getText()))) {
                             jOptionPane.showMessageDialog(null, "BAJGIRI BA MOVAFAGHIAT TAKMIL SHOD");
@@ -197,7 +216,7 @@ public class MainPanel extends JPanel  {
                     } else {
                         jOptionPane.showMessageDialog(null, "ID PLAYER RA VARED KONID");
                     }
-                }else {
+                } else {
                     jOptionPane.showMessageDialog(null, "NOBATET NIST");
                 }
                 update();
@@ -208,8 +227,7 @@ public class MainPanel extends JPanel  {
                                       public void actionPerformed(ActionEvent e) {
                                           if (Controller.getInstance().checkNobat()) {
                                               ChangeCardsFrame changeCardsFrame = new ChangeCardsFrame(1);
-                                          }
-                                          else {
+                                          } else {
                                               jOptionPane.showMessageDialog(null, "NOBATET NIST");
                                           }
 
@@ -219,14 +237,14 @@ public class MainPanel extends JPanel  {
         moaveze1coin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (Controller.getInstance().checkNobat()){
-                    if (Controller.getInstance().getStaticPlayer().getCoins()>=1){
+                if (Controller.getInstance().checkNobat()) {
+                    if (Controller.getInstance().getStaticPlayer().getCoins() >= 1) {
                         TavizCardFrame tavizCardFrame = new TavizCardFrame();
-                    }else {
-                        jOptionPane.showMessageDialog(null,"HADAGHAL YE SEKE BAYAD BEDI");
+                    } else {
+                        jOptionPane.showMessageDialog(null, "HADAGHAL YE SEKE BAYAD BEDI");
                     }
-                }else {
-                    jOptionPane.showMessageDialog(null,"Nobatet nist");
+                } else {
+                    jOptionPane.showMessageDialog(null, "Nobatet nist");
                 }
             }
         });
@@ -241,20 +259,36 @@ public class MainPanel extends JPanel  {
         if (!(tedadseke2 == null)) {
             this.remove(tedadseke2);
         }
+        if (tedadSeke3 != null) {
+            this.remove(tedadSeke3);
+        }
+        if (tedadSeke4 != null) {
+            this.remove(tedadSeke4);
+        }
         try {
             tedadSeke1 = new JLabel(String.valueOf(Controller.getInstance().getStaticPlayer().getCoins()));
-        }catch (Exception e){
+        } catch (Exception e) {
             //todo
         }
         if (Controller.getInstance().getPlayer(2) != null) {
             tedadseke2 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(2).getCoins()));
         }
+        if (Controller.getInstance().getPlayer(3) != null) {
+            tedadSeke3 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(3).getCoins()));
+        }
+        if (Controller.getInstance().getPlayer(4) != null) {
+            tedadSeke4 = new JLabel(String.valueOf(Controller.getInstance().getPlayer(4).getCoins()));
+        }
 
         tedadSeke1.setBounds(MainFrame.width / 2 + 5, MainFrame.height - 150, 150, 30);
         this.add(tedadSeke1);
-        tedadseke2.setBounds(MainFrame.width - 275,MainFrame.height - 300,30,30);
+        tedadseke2.setBounds(MainFrame.width - 275, MainFrame.height - 300, 30, 30);
         this.add(tedadseke2);
-       // checkRemove(); todo
+        tedadSeke3.setBounds(MainFrame.width / 2 - 75, 250, 100, 30);
+        this.add(tedadSeke3);
+        tedadSeke4.setBounds(200, MainFrame.height - 300, 30, 30);
+        this.add(tedadSeke4);
+        // checkRemove(); todo
 
         updateKards();
         repaint();
@@ -268,22 +302,35 @@ public class MainPanel extends JPanel  {
 
         this.remove(playerCards1);
         this.remove(playerCards2);
+        this.remove(playerCards3);
+        this.remove(playerCards4);
         playerCards1 = new PlayerCards(Controller.getInstance().getKardPLayer(1));
         playerCards2 = new PlayerCards(Controller.getInstance().getKardPLayer(2));
+        playerCards3 = new PlayerCards(Controller.getInstance().getKardPLayer(3));
+        playerCards4 = new PlayerCards(Controller.getInstance().getKardPLayer(4));
         playerCards1.setBounds((MainFrame.width / 2) - 250, MainFrame.height - 450, 450, 300);
         this.add(playerCards1, 0);
         playerCards2.setBounds((MainFrame.width) - 500, MainFrame.height - 650, 450, 300);
         this.add(playerCards2, 0);
+        playerCards3.setBounds((MainFrame.width / 2) - 250, -50, 450, 300);
+        this.add(playerCards3);
+        playerCards4.setBounds(10, MainFrame.height - 650, 450, 300);
+        this.add(playerCards4);
         playerCards1.repaint();
         playerCards2.repaint();
+        playerCards3.repaint();
+        playerCards4.repaint();
         playerCards1.revalidate();
         playerCards2.revalidate();
+        playerCards3.revalidate();
+        playerCards4.revalidate();
         repaint();
         revalidate();
 
     }
-    public void showWarnMessage(){
-        JOptionPane.showMessageDialog(null,"YE KART ENTEKHAB KON");
+
+    public void showWarnMessage() {
+        JOptionPane.showMessageDialog(null, "YE KART ENTEKHAB KON YA CHALESHO YA AMAL MOTAGHABEL");
     }
 
 

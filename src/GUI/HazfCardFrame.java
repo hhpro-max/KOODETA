@@ -30,6 +30,7 @@ public class HazfCardFrame extends JFrame {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                     Controller.getInstance().removeCard(imageIcon);
+                    MainFrame.closeAll();
                     dispose();
                     MainPanel.getInstance().update();
                 }
