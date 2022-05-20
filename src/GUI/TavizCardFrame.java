@@ -47,8 +47,13 @@ public class TavizCardFrame extends ChangeCardsFrame {
                     remove(jButton);
                     repaint();
                     revalidate();
-                    if (listNahayy.size()>=2){
+                    if (Controller.getInstance().getStaticPlayer().getKartBazis().size() == 2 && listNahayy.size()>=2){
                         Controller.getInstance().tavizkart(listNahayy);
+                        dispose();
+                        MainPanel.getInstance().updateKards();
+                        MainPanel.getInstance().update();
+                    }else if (Controller.getInstance().getStaticPlayer().getKartBazis().size() == 1 && listNahayy.size() > 0 ){
+                        Controller.getInstance().getStaticPlayer().getKartBazis().set(0,listNahayy.get(0));
                         dispose();
                         MainPanel.getInstance().updateKards();
                         MainPanel.getInstance().update();

@@ -12,6 +12,8 @@ public class MoshakasatBazi {
     static List<KartBazi> validKards = new ArrayList<>();
     static List<KartBazi> inValidKards = new ArrayList<>();
     static int nobat = 1;
+    static int dor = 1;
+
     static Player player;
     static boolean baresi = false;
     public static void initCards(){
@@ -45,7 +47,12 @@ public class MoshakasatBazi {
         Collections.shuffle(validKards);
     }
     public static void changeNobat(){
-
+        if (nobat == 1){
+            dor++;
+            if (dor % 2 == 1){
+                Robot2.beChaleshKeshideha.clear();
+            }
+        }
         checkFinish();
         if (nobat < 4){
             nobat++;
@@ -80,14 +87,17 @@ public class MoshakasatBazi {
         }
     }
     public static void checkChallenge(){
+
         for (Player i:
              MoshakasatBazi.getPlayers().values()) {
-            if (i != null &&    !i.equals(Controller.getInstance().getStaticPlayer())){
+            if (i != null &&  !i.equals(Controller.getInstance().getStaticPlayer())){
                 i.challengeSetOn();
             }
         }
+
     }
     public static void playNext(){
+
         player.play();
         Controller.getInstance().updateMainPanel();
     }

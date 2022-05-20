@@ -15,10 +15,11 @@ public class Player {
     String id;
     Integer choosenCard = null;
     public int mainPlayerChooseCard = 0;
-    Player targetPlayer = null;
+    boolean challengedChange = false;
     Player targetPlayer1 = null;
     int jaigah = 0;
-    public Player(){
+
+    public Player() {
 
     }
 
@@ -42,10 +43,10 @@ public class Player {
     public void removeKard(int i) {
         try {
             MoshakasatBazi.getInValidKards().add(kartBazis.get(i));
-            GozareshPanel.getInstance().initGozaresh(this.id+" -> KILL : "+ kartBazis.get(i).toString());
+            GozareshPanel.getInstance().initGozaresh(this.id + " -> KILL : " + kartBazis.get(i).toString());
             this.kartBazis.remove(i);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + "  FROM REMOVE CARD FUNCTION");
             this.removeKard(0);
         }
         checkLose(this);
@@ -68,7 +69,7 @@ public class Player {
 
         for (Player i :
                 MoshakasatBazi.getPlayers().values()) {
-            if (!i.equals(this)){
+            if (!i.equals(this)) {
                 i.takedAction = Actions.GET_MONEY;
             }
         }
@@ -244,6 +245,7 @@ public class Player {
     }
 
     public void moaveze(KartBazi kartBazi1, KartBazi kartBazi2) {
+
         safe = false;
         bolof = true;
         for (KartBazi i :
@@ -254,9 +256,13 @@ public class Player {
             }
         }
         this.kartBazis.clear();
+        GozareshPanel.getInstance().initGozaresh(this.id + " -> : CHANGED HIS CARDS");
         kartBazis.add(kartBazi1);
         kartBazis.add(kartBazi2);
-        MoshakasatBazi.changeNobat();
+        if (!challengedChange){
+            MoshakasatBazi.changeNobat();
+        }
+        challengedChange = false;
     }
 
     public void moaveze1coin(KartBazi kartBazi1, KartBazi kartBazi2) {
@@ -274,7 +280,11 @@ public class Player {
             this.kartBazis.clear();
             kartBazis.add(kartBazi1);
             kartBazis.add(kartBazi2);
-            MoshakasatBazi.changeNobat();
+            GozareshPanel.getInstance().initGozaresh(this.id + " -> : CHANGED ONE OF HIS CARDS");
+            if (!challengedChange){
+                MoshakasatBazi.changeNobat();
+            }
+            challengedChange = false;
         }
     }
 
@@ -332,216 +342,250 @@ public class Player {
         }
         return false;
     }
-    public void setChallengePlayer(Actions actions){
-        for (Player j:
-             MoshakasatBazi.getPlayers().values()) {
-            if (!j.equals(this)){
+
+    public void setChallengePlayer(Actions actions) {
+        for (Player j :
+                MoshakasatBazi.getPlayers().values()) {
+            if (!j.equals(this)) {
                 j.challengeAction = actions;
             }
         }
     }
-    public void challenge(){
-        targetPlayer = null;
-        switch (challengeAction){
+
+    public void challenge() {
+        Player targetPlayer = null;
+        soich:
+        switch (challengeAction) {
             case GET_MONEY:
 
-                for (Player i:
-                     MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.GET_MONEY)){
-                        targetPlayer =i;
+                for (Player i :
+                        MoshakasatBazi.getPlayers().values()) {
+                    if (i.getLastAction().equals(Actions.GET_MONEY)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
-                    for (KartBazi j:
-                         targetPlayer.getKartBazis()) {
-                        if (j instanceof BozorgZade){
+                if (targetPlayer != null && !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
+                    for (KartBazi j :
+                            targetPlayer.getKartBazis()) {
+                        if (j instanceof BozorgZade) {
                             targetPlayer.lastAction = Actions.NOTHING;
-                            Controller.getInstance().warnPlayer();
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    targetPlayer.coins  = targetPlayer.coins - 3;
+                    targetPlayer.coins = targetPlayer.coins - 3;
 
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
 
                 }
                 break;
             case SOE_GHASD:
-                for (Player i:
+                for (Player i :
                         MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.SOE_GHASD)){
-                        targetPlayer =i;
+                    if (i.getLastAction().equals(Actions.SOE_GHASD)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
 
-                    for (KartBazi j:
+                    for (KartBazi j :
                             targetPlayer.getKartBazis()) {
-                        if (j instanceof AdamKosh){
+                        if (j instanceof AdamKosh) {
                             targetPlayer.lastAction = Actions.NOTHING;
                             MoshakasatBazi.getPlayers().values().remove(this);
                             MoshakasatBazi.checkFinish();
                             targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
                 }
                 break;
 
-            case  BAJ_GIRI:
-                for (Player i:
+            case BAJ_GIRI:
+                for (Player i :
                         MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.BAJ_GIRI)){
-                        targetPlayer =i;
+                    if (i.getLastAction().equals(Actions.BAJ_GIRI)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
 
-                    for (KartBazi j:
+                    for (KartBazi j :
                             targetPlayer.getKartBazis()) {
-                        if (j instanceof Farmande){
+                        if (j instanceof Farmande) {
                             targetPlayer.lastAction = Actions.NOTHING;
-                            Controller.getInstance().warnPlayer();
-                            targetPlayer.getKartBazis().remove(j);
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }                            targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
                     targetPlayer.coins = targetPlayer.coins - 2;
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
                 }
                 break;
             case REACTED_ON_SOEGHASD:
-                for (Player i:
+                for (Player i :
                         MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.REACTED_ON_SOEGHASD)){
-                        targetPlayer =i;
+                    if (i.getLastAction().equals(Actions.REACTED_ON_SOEGHASD)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
 
-                    for (KartBazi j:
+                    for (KartBazi j :
                             targetPlayer.getKartBazis()) {
-                        if (j instanceof ShahDokht){
+                        if (j instanceof ShahDokht) {
                             targetPlayer.lastAction = Actions.NOTHING;
-                            Controller.getInstance().warnPlayer();
-                            targetPlayer.getKartBazis().remove(j);
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }                            targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
                 }
                 break;
             case REACTED_ON_BAJGIRI:
-                for (Player i:
+                for (Player i :
                         MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.REACTED_ON_BAJGIRI)){
-                        targetPlayer =i;
+                    if (i.getLastAction().equals(Actions.REACTED_ON_BAJGIRI)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
 
-                    for (KartBazi j:
+                    for (KartBazi j :
                             targetPlayer.getKartBazis()) {
-                        if (j instanceof Farmande || j instanceof Safir){
+                        if (j instanceof Farmande || j instanceof Safir) {
                             targetPlayer.lastAction = Actions.NOTHING;
-                            Controller.getInstance().warnPlayer();
-                            targetPlayer.getKartBazis().remove(j);
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }                            targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
                 }
                 break;
             case REACTED_ON_GETMONEY:
-                for (Player i:
+                for (Player i :
                         MoshakasatBazi.getPlayers().values()) {
-                    if (i.getLastAction().equals(Actions.REACTED_ON_GETMONEY)){
-                        targetPlayer =i;
+                    if (i.getLastAction().equals(Actions.REACTED_ON_GETMONEY)) {
+                        targetPlayer = i;
                     }
                 }
-                if (targetPlayer != null){
-                    GozareshPanel.getInstance().initGozaresh(this.id + " -> "+targetPlayer.id + " : CHALLENGE");
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
 
-                    for (KartBazi j:
+                    for (KartBazi j :
                             targetPlayer.getKartBazis()) {
-                        if (j instanceof BozorgZade){
+                        if (j instanceof BozorgZade) {
                             targetPlayer.lastAction = Actions.NOTHING;
-                            Controller.getInstance().warnPlayer();
-                            targetPlayer.getKartBazis().remove(j);
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }                            targetPlayer.getKartBazis().remove(j);
                             Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
                             targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
-                            return;
+                            break soich;
                         }
                     }
                     targetPlayer.lastAction = Actions.NOTHING;
-                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())){
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
                         targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
-                    }else {
+                    } else {
                         targetPlayer.removeKard(targetPlayer.choosenCard);
                     }
                 }
                 break;
         }
-    }
-    public void challengeSetOn(){
+
+        if (targetPlayer != null && this instanceof Robot2){
+            Robot2.beChaleshKeshideha.add(targetPlayer);
+        }
+
+
 
     }
-    public void undo(){
+
+    public void challengeSetOn() {
 
     }
-    public void chooseTargetPlayer(){
+
+    public void undo() {
+
+    }
+
+    public void chooseTargetPlayer() {
         Random random = new Random();
         int a = random.nextInt(5);
         try {
-            if (MoshakasatBazi.getPlayers().get(a) != null && !MoshakasatBazi.getPlayers().get(a).equals(this)){
+            if (MoshakasatBazi.getPlayers().get(a) != null && !MoshakasatBazi.getPlayers().get(a).equals(this)) {
                 targetPlayer1 = MoshakasatBazi.getPlayers().get(a);
-            }
-            else {
+            } else {
                 chooseTargetPlayer();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             chooseTargetPlayer();
         }
     }

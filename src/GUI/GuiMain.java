@@ -19,7 +19,7 @@ public class GuiMain {
         //player.setChoosenCard(0);
         player1.getKartBazis().add(farmande);
         player1.getKartBazis().add(new AdamKosh());
-        player.getKartBazis().add(new Safir());
+        player.getKartBazis().add(new BozorgZade());
         player.getKartBazis().add(new AdamKosh());
         player2.getKartBazis().add(new BozorgZade());
         player2.getKartBazis().add(new ShahDokht());

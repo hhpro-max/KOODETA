@@ -1,38 +1,33 @@
 package LOGIC;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class Robot2 extends Player{
+    public static List<Player> beChaleshKeshideha = new ArrayList<>();
     public Robot2(){
 
     }
     @Override
     public void play(){
+        this.chooseTargetPlayer();
         chooseCard();
-        if (this.coins < 9){
+        if (this.coins < 7) {
             this.take2Coins();
-        }else {
-           this.kodeta(MoshakasatBazi.getPlayers().get(2));
+        }
+        else {
+
+            this.kodeta(this.targetPlayer1);
         }
     }
     @Override
     public void challengeSetOn(){
-        if (jaigah == 0) {
-            findJaigah();
-        }
-        Player lastChallenge = targetPlayer;
-        if (this.challengeAction != Actions.NOTHING && !MoshakasatBazi.getPlayers().get(MoshakasatBazi.nobat).equals(lastChallenge)){
+        if (this.challengeAction != Actions.NOTHING && beChaleshKeshideha.isEmpty()){
             this.challenge();
         }
     }
-    public void findJaigah(){
-        for (Map.Entry<Integer,Player> i: MoshakasatBazi.getPlayers().entrySet()){
-            if (i.getValue().equals(this)){
-                jaigah = i.getKey();
-                return;
-            }
-        }
-    }
+
     @Override
     public void chooseCard(){
         if (this.choosenCard == null) {
