@@ -47,6 +47,7 @@ public class Player {
             this.kartBazis.remove(i);
         } catch (Exception e) {
             System.out.println(e.getMessage() + "  FROM REMOVE CARD FUNCTION");
+            checkLose(this);
             this.removeKard(0);
         }
         checkLose(this);
@@ -162,6 +163,7 @@ public class Player {
             if (player.getKartBazis().size() == 1) {
                 player.removeKard(0);
                 player.takedAction = Actions.SOE_GHASD;
+                setChallengePlayer(Actions.SOE_GHASD);
                 player.choosenCard = null;
                 return true;
             }
@@ -221,7 +223,7 @@ public class Player {
                     break;
                 }
             }
-            Controller.getInstance().gozaresh(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            Controller.getInstance().gozaresh(this.id + " -> " + idPlayer + " : BAJGIRI");
             MoshakasatBazi.changeNobat();
             return true;
         } else if (player.getCoins() == 1) {
@@ -255,12 +257,20 @@ public class Player {
                 break;
             }
         }
+
         this.kartBazis.clear();
-        GozareshPanel.getInstance().initGozaresh(this.id + " -> : CHANGED HIS CARDS");
         kartBazis.add(kartBazi1);
         kartBazis.add(kartBazi2);
+
+
+        GozareshPanel.getInstance().initGozaresh(this.id + " -> : CHANGED HIS CARDS");
+        this.lastAction = Actions.MOAVEZE;
+
         if (!challengedChange){
             MoshakasatBazi.changeNobat();
+            setChallengePlayer(Actions.MOAVEZE);
+        }else {
+            setChallengePlayer(Actions.NOTHING);
         }
         challengedChange = false;
     }
@@ -269,17 +279,19 @@ public class Player {
         if (this.coins >= 1) {
             this.coins--;
             safe = false;
-            bolof = true;
-            for (KartBazi i :
-                    kartBazis) {
-                if (i instanceof Safir) {
-                    bolof = false;
-                    break;
+            if (this.kartBazis.size() == 1){
+                if (kartBazis.contains(kartBazi1)){
+                    kartBazis.remove(kartBazi1);
+                    kartBazis.add(kartBazi2);
+                }else if (kartBazis.contains(kartBazi2)){
+                    kartBazis.remove(kartBazi2);
+                    kartBazis.add(kartBazi1);
                 }
+            }else {
+                kartBazis.clear();
+                kartBazis.add(kartBazi1);
+                kartBazis.add(kartBazi2);
             }
-            this.kartBazis.clear();
-            kartBazis.add(kartBazi1);
-            kartBazis.add(kartBazi2);
             GozareshPanel.getInstance().initGozaresh(this.id + " -> : CHANGED ONE OF HIS CARDS");
             if (!challengedChange){
                 MoshakasatBazi.changeNobat();
@@ -339,6 +351,7 @@ public class Player {
                 GozareshPanel.getInstance().initGozaresh(this.id + " -> REACTED ON SOEGHASD");
 
                 return true;
+
         }
         return false;
     }
@@ -558,6 +571,40 @@ public class Player {
                     }
                 }
                 break;
+            case MOAVEZE:
+                for (Player i :
+                        MoshakasatBazi.getPlayers().values()) {
+                    if (i.getLastAction().equals(Actions.MOAVEZE)) {
+                        targetPlayer = i;
+                    }
+                }
+                if (targetPlayer != null&& !targetPlayer.equals(this)) {
+                    GozareshPanel.getInstance().initGozaresh(this.id + " -> " + targetPlayer.id + " : CHALLENGE");
+
+                    for (KartBazi j :
+                            targetPlayer.getKartBazis()) {
+                        if (j instanceof Safir) {
+                            targetPlayer.lastAction = Actions.NOTHING;
+                            if (Controller.getInstance().getStaticPlayer().equals(this)) {
+                                Controller.getInstance().warnPlayer();
+                            } else {
+                                this.removeKard(this.choosenCard);
+                            }
+                            targetPlayer.getKartBazis().remove(j);
+                            Collections.shuffle(MoshakasatBazi.getValidKards());
+                            targetPlayer.challengedChange = true;
+                            targetPlayer.moaveze(targetPlayer.getKartBazis().get(0), MoshakasatBazi.validKards.get(0));
+                            break soich;
+                        }
+                    }
+                    targetPlayer.lastAction = Actions.NOTHING;
+                    if (targetPlayer.equals(Controller.getInstance().getStaticPlayer())) {
+                        targetPlayer.removeKard(targetPlayer.mainPlayerChooseCard);
+                    } else {
+                        targetPlayer.removeKard(targetPlayer.choosenCard);
+                    }
+                }
+                break;
         }
 
         if (targetPlayer != null && this instanceof Robot2){
@@ -575,19 +622,35 @@ public class Player {
     public void undo() {
 
     }
-
+    int tried = 0;
     public void chooseTargetPlayer() {
         Random random = new Random();
         int a = random.nextInt(5);
         try {
+            if (tried >= 10){
+                targetPlayer1 = takePlayer();
+                return;
+            }
             if (MoshakasatBazi.getPlayers().get(a) != null && !MoshakasatBazi.getPlayers().get(a).equals(this)) {
                 targetPlayer1 = MoshakasatBazi.getPlayers().get(a);
+                tried = 0;
             } else {
                 chooseTargetPlayer();
+                tried++;
             }
         } catch (Exception e) {
             chooseTargetPlayer();
         }
+    }
+    public Player takePlayer(){
+        Player player = null;
+        for (Player i:
+             MoshakasatBazi.getPlayers().values()) {
+            if (i != null && !i.equals(this)){
+                player = i;
+            }
+        }
+        return player;
     }
 
     public boolean checkReaction(boolean b) {

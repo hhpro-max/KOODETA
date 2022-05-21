@@ -23,7 +23,7 @@ public class Robot2 extends Player{
     }
     @Override
     public void challengeSetOn(){
-        if (this.challengeAction != Actions.NOTHING && beChaleshKeshideha.isEmpty()){
+        if (this.challengeAction != Actions.NOTHING && MoshakasatBazi.dor % 2 ==1 && beChaleshKeshideha.isEmpty()){
             this.challenge();
         }
     }

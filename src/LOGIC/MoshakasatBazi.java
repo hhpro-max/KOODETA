@@ -61,17 +61,18 @@ public class MoshakasatBazi {
         }
         if (players.containsKey(nobat)) {
             player = players.get(nobat);
-
+            playNext();
             try {
                 checkChallenge();
             }catch (Exception e){
                 System.out.println(e.getMessage() + "   THIS IS NOT IMPORTANT ERROR XD");
             }
-            playNext();
+
+
 
 
             try {
-                if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING)){
+                if ( player.equals(Controller.getInstance().getStaticPlayer()) && !Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.NOTHING) &&!Controller.getInstance().getStaticPlayer().takedAction.equals(Actions.KOODETA)){
                     Waiter waiter = new Waiter(Controller.getInstance().getStaticPlayer().takedAction.toString());
                 }
                 if (!Controller.getInstance().getStaticPlayer().challengeAction.equals(Actions.NOTHING)){
@@ -110,10 +111,10 @@ public class MoshakasatBazi {
             for (Map.Entry<Integer,Player> i:
                  players.entrySet()) {
                 if (i.getValue() != null){
-                    System.out.println(i.getValue().getId() + " WON !");
+                    System.out.println(i.getValue().getId() + " WON !" + ": FOR MORE INFO YOU CAN READ LOGS");
                 }
             }
-            System.exit(0);
+           System.exit(0);
         }
     }
 
