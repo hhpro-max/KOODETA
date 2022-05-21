@@ -240,7 +240,7 @@ public class Player {
                     break;
                 }
             }
-            Controller.getInstance().gozaresh(player.getId() + "->" + idPlayer + ": BAJGIRI");
+            Controller.getInstance().gozaresh(this.getId() + "->" + idPlayer + ": BAJGIRI");
             MoshakasatBazi.changeNobat();
             return true;
         }

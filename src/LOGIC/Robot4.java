@@ -14,8 +14,10 @@ public class Robot4 extends Player{
         }
         else if (this.coins >= 7){
             this.kodeta(targetPlayer1);
-        }else {
+        }else if (this.coins>=3){
             this.soeGhasd(targetPlayer1);
+        }else {
+            this.take2Coins();
         }
     }
     int shomaresh = 0;
@@ -32,7 +34,7 @@ public class Robot4 extends Player{
     @Override
     public void chooseCard() {
         if (this.choosenCard == null) {
-            this.choosenCard = this.kartBazis.size() - 1;
+            this.choosenCard = 0;
         }
     }
 }

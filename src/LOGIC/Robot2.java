@@ -31,7 +31,7 @@ public class Robot2 extends Player{
     @Override
     public void chooseCard(){
         if (this.choosenCard == null) {
-            this.choosenCard = this.kartBazis.size() - 1;
+            this.choosenCard = 0;
         }
     }
 }
