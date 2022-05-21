@@ -215,7 +215,7 @@ public class Player {
             setChallengePlayer(Actions.BAJ_GIRI);
             this.coins += 2;
             int tadadCoin = player.getCoins();
-            player.setCoins(tadadCoin - 2);
+            player.coins -= 2;
             for (KartBazi i :
                     kartBazis) {
                 if (i instanceof Farmande) {
@@ -224,6 +224,7 @@ public class Player {
                 }
             }
             Controller.getInstance().gozaresh(this.id + " -> " + idPlayer + " : BAJGIRI");
+            setChallengePlayer(Actions.BAJ_GIRI);
             MoshakasatBazi.changeNobat();
             return true;
         } else if (player.getCoins() == 1) {

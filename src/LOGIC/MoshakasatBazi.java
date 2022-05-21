@@ -49,6 +49,9 @@ public class MoshakasatBazi {
     public static void changeNobat(){
         if (nobat == 1){
             dor++;
+            if (player != null){
+                player.setChallengePlayer(Actions.NOTHING);
+            }
             if (dor % 2 == 1){
                 Robot2.beChaleshKeshideha.clear();
             }

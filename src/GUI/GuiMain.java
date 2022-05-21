@@ -12,7 +12,8 @@ public class GuiMain {
         Player player = new Player();
         Player player1 = new Robot1();
         Player player2 = new Robot2();
-        Player player3 = new Robot3();
+        //Player player3 = new Robot3();
+        Player player3 = new Robot4();
         player1.setChoosenCard(0);
         player2.setChoosenCard(0);
         player3.setChoosenCard(0);
